@@ -1,0 +1,183 @@
+/* SDC310L Online Store - Shared Stylesheet */
+
+/* --- Reset and Base --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+/* --- Site Header --- */
+.site-header {
+    background-color: #2c3e50;
+    color: #fff;
+    padding: 16px 24px;
+}
+
+.site-header h1 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+.site-header nav a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 1rem;
+    border-bottom: 2px solid transparent;
+}
+
+.site-header nav a:hover {
+    border-bottom: 2px solid #e67e22;
+}
+
+/* --- Page Content --- */
+.page-content {
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 0 20px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/* --- Product Cards (Catalog) --- */
+.product-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.product-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 16px 20px;
+}
+
+.product-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    color: #2c3e50;
+}
+
+.product-card p {
+    margin-bottom: 4px;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.product-card .product-cost {
+    font-weight: bold;
+    color: #27ae60;
+    font-size: 1rem;
+    margin-top: 6px;
+}
+
+/* --- Buttons --- */
+.btn-row {
+    margin-top: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 6px 14px;
+    font-size: 0.9rem;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.btn-add    { background-color: #27ae60; color: #fff; }
+.btn-remove { background-color: #e74c3c; color: #fff; }
+.btn-inc    { background-color: #2980b9; color: #fff; }
+.btn-dec    { background-color: #8e44ad; color: #fff; }
+.btn-action { background-color: #2c3e50; color: #fff; }
+
+button:hover {
+    opacity: 0.85;
+}
+
+/* --- Cart Table --- */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    margin-bottom: 24px;
+}
+
+.cart-table th,
+.cart-table td {
+    border: 1px solid #ddd;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.cart-table th {
+    background-color: #2c3e50;
+    color: #fff;
+}
+
+.cart-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* --- Order Summary --- */
+.order-summary {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 16px 20px;
+    max-width: 360px;
+    margin-left: auto;
+}
+
+.order-summary table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.order-summary td {
+    padding: 6px 8px;
+    font-size: 0.95rem;
+}
+
+.order-summary td:last-child {
+    text-align: right;
+    font-weight: bold;
+}
+
+.order-summary .total-row td {
+    border-top: 2px solid #2c3e50;
+    font-size: 1.05rem;
+    color: #2c3e50;
+}
+
+/* --- Cart Action Buttons Row --- */
+.cart-actions {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+}
+
+/* --- Site Footer --- */
+.site-footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    font-size: 0.85rem;
+    color: #999;
+    border-top: 1px solid #ddd;
+}

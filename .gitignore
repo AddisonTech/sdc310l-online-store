@@ -1,0 +1,11 @@
+# PHP environment files
+*.env
+config.php
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.idea/
+*.swp
