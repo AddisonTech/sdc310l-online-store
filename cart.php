@@ -25,9 +25,9 @@ $cart_items = array(
 // --- Order summary placeholder values ---
 $total_items   = 2;
 $subtotal      = 49.98;
-$tax_rate      = 0.07;                           // 7% tax rate
+$tax_rate      = 0.05;                           // 5% tax rate
 $tax           = $subtotal * $tax_rate;          // calculated tax amount
-$shipping      = 5.99;                           // flat rate shipping
+$shipping      = $subtotal * 0.10;               // shipping and handling: 10% of pre-tax total
 $order_total   = $subtotal + $tax + $shipping;   // final order total
 ?>
 
@@ -75,7 +75,7 @@ $order_total   = $subtotal + $tax + $shipping;   // final order total
             <td>$<?php echo number_format($subtotal, 2); ?></td>
         </tr>
         <tr>
-            <td>Tax (7%):</td>
+            <td>Tax (5%):</td>
             <td>$<?php echo number_format($tax, 2); ?></td>
         </tr>
         <tr>
