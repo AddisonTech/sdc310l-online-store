@@ -1,47 +1,72 @@
 <?php
 // catalog.php - Product Catalog Page
-// Displays all available products and provides cart control buttons
+// Loads all products from the database and handles cart actions.
+// Cart quantities are stored in the quantity_in_cart column of the products table.
 
-// --- Sample product data ---
-// In a later week this will be replaced with a database query.
-// Each product matches the columns in the products table in db/store.sql.
-$products = array(
-    array(
-        'product_id'          => 1,
-        'product_name'        => 'Wireless Mouse',
-        'product_description' => 'Compact wireless mouse with USB receiver and long battery life',
-        'product_cost'        => 19.99,
-        'quantity_in_cart'    => 0
-    ),
-    array(
-        'product_id'          => 2,
-        'product_name'        => 'USB Keyboard',
-        'product_description' => 'Full-size wired USB keyboard with quiet keys',
-        'product_cost'        => 29.99,
-        'quantity_in_cart'    => 0
-    ),
-    array(
-        'product_id'          => 3,
-        'product_name'        => 'Monitor Stand',
-        'product_description' => 'Adjustable aluminum monitor stand with storage shelf',
-        'product_cost'        => 44.99,
-        'quantity_in_cart'    => 0
-    ),
-    array(
-        'product_id'          => 4,
-        'product_name'        => 'Laptop Backpack',
-        'product_description' => 'Water-resistant 15-inch laptop backpack with multiple compartments',
-        'product_cost'        => 39.99,
-        'quantity_in_cart'    => 0
-    ),
-    array(
-        'product_id'          => 5,
-        'product_name'        => 'HDMI Cable 6ft',
-        'product_description' => '6-foot HDMI 2.0 cable, supports 4K resolution',
-        'product_cost'        =>  9.99,
-        'quantity_in_cart'    => 0
-    )
-);
+include 'includes/db_connect.php';
+
+// ------------------------------------------------------------
+// CART ACTION HANDLER
+// Each set of cart buttons submits a POST form with two fields:
+//   product_id  - the ID of the product being acted on
+//   action      - one of: add, remove, increase, decrease
+// After processing, redirect back to this page to prevent
+// the browser from resubmitting the form on refresh.
+// ------------------------------------------------------------
+if (isset($_POST['action']) && isset($_POST['product_id'])) {
+
+    $productId = (int)$_POST['product_id'];   // cast to int to prevent injection
+    $action    = $_POST['action'];
+
+    if ($action === 'add') {
+        // Add to Cart: set quantity to 1 only if the item is not already in the cart.
+        // If it is already in the cart, this button does nothing (use Increase instead).
+        $checkResult = mysqli_query($conn,
+            "SELECT quantity_in_cart FROM products WHERE product_id = $productId");
+        $row = mysqli_fetch_assoc($checkResult);
+        if ((int)$row['quantity_in_cart'] === 0) {
+            mysqli_query($conn,
+                "UPDATE products SET quantity_in_cart = 1 WHERE product_id = $productId");
+        }
+
+    } elseif ($action === 'remove') {
+        // Remove from Cart: set quantity back to 0 regardless of current value
+        mysqli_query($conn,
+            "UPDATE products SET quantity_in_cart = 0 WHERE product_id = $productId");
+
+    } elseif ($action === 'increase') {
+        // Increase Quantity: add 1 to the current cart quantity
+        mysqli_query($conn,
+            "UPDATE products SET quantity_in_cart = quantity_in_cart + 1 WHERE product_id = $productId");
+
+    } elseif ($action === 'decrease') {
+        // Decrease Quantity: subtract 1 but do not allow quantity to go below 0
+        $checkResult = mysqli_query($conn,
+            "SELECT quantity_in_cart FROM products WHERE product_id = $productId");
+        $row = mysqli_fetch_assoc($checkResult);
+        if ((int)$row['quantity_in_cart'] > 0) {
+            mysqli_query($conn,
+                "UPDATE products SET quantity_in_cart = quantity_in_cart - 1 WHERE product_id = $productId");
+        }
+    }
+
+    // Redirect after POST to avoid duplicate submissions on page refresh
+    header('Location: catalog.php');
+    exit;
+}
+
+// ------------------------------------------------------------
+// LOAD PRODUCTS FROM DATABASE
+// Retrieve all rows from the products table. The quantity_in_cart
+// column shows how many of each item the user has in their cart.
+// ------------------------------------------------------------
+$query   = "SELECT * FROM products";
+$result  = mysqli_query($conn, $query);
+
+$products = array();
+while ($row = mysqli_fetch_assoc($result)) {
+    $products[] = $row;
+}
 ?>
 
 <?php include 'includes/header.php'; ?>
@@ -50,11 +75,7 @@ $products = array(
 
 <div class="product-list">
 
-<?php
-// --- Display each product ---
-// Loop through the products array and output a card for each one
-foreach ($products as $product) {
-?>
+<?php foreach ($products as $product): ?>
     <div class="product-card">
         <h3><?php echo $product['product_name']; ?></h3>
         <p><strong>Product ID:</strong> <?php echo $product['product_id']; ?></p>
@@ -62,15 +83,21 @@ foreach ($products as $product) {
         <p class="product-cost">$<?php echo number_format($product['product_cost'], 2); ?></p>
         <p><strong>Quantity in Cart:</strong> <?php echo $product['quantity_in_cart']; ?></p>
 
-        <!-- Cart control buttons - functionality will be added in a later week -->
+        <!-- Cart control buttons
+             Each button is inside a shared form for this product.
+             The hidden product_id field and the button's name/value
+             tell the server which product to update and what to do. -->
         <div class="btn-row">
-            <button class="btn-add">Add to Cart</button>
-            <button class="btn-remove">Remove from Cart</button>
-            <button class="btn-inc">Increase Quantity</button>
-            <button class="btn-dec">Decrease Quantity</button>
+            <form method="POST">
+                <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                <button type="submit" name="action" value="add"      class="btn-add">Add to Cart</button>
+                <button type="submit" name="action" value="remove"   class="btn-remove">Remove from Cart</button>
+                <button type="submit" name="action" value="increase" class="btn-inc">Increase Quantity</button>
+                <button type="submit" name="action" value="decrease" class="btn-dec">Decrease Quantity</button>
+            </form>
         </div>
     </div>
-<?php } ?>
+<?php endforeach; ?>
 
 </div>
 
