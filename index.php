@@ -1,6 +1,12 @@
 <?php
-// index.php - Landing page
-// Redirects the user directly to the product catalog
-header('Location: catalog.php');
-exit;
+// index.php - Front controller
+// Routes requests to the catalog or cart controller.
+
+$page = isset($_GET['page']) ? $_GET['page'] : 'catalog';
+
+if ($page === 'cart') {
+    require 'controllers/CartController.php';
+} else {
+    require 'controllers/CatalogController.php';
+}
 ?>

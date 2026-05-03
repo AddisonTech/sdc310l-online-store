@@ -10,8 +10,8 @@
 <div class="site-header">
     <h1>SDC310L Online Store</h1>
     <nav>
-        <a href="catalog.php">Catalog</a>
-        <a href="cart.php">Shopping Cart</a>
+        <a href="index.php">Catalog</a>
+        <a href="index.php?page=cart">Shopping Cart</a>
     </nav>
 </div>
 
