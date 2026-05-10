@@ -111,3 +111,67 @@ sdc310l-online-store/
 │   └── store.sql
 ├── index.php
 └── README.md
+
+Database Information
+
+The application uses a MySQL database named sdc310l_store.
+
+The database includes a products table with fields for:
+
+product_id
+product_name
+product_description
+product_cost
+quantity_in_cart
+
+The SQL file for the project is stored in:
+
+db/store.sql
+
+How to Run the Project Locally
+Requirements
+XAMPP
+Apache running
+MySQL running
+phpMyAdmin
+Web browser
+Setup Steps
+Place the project folder inside the XAMPP htdocs directory.
+Start Apache and MySQL in XAMPP.
+Open phpMyAdmin.
+Import the db/store.sql file to create the database and sample data.
+Open the application in your browser using:
+
+http://localhost:8080/sdc310l-online-store/
+
+Testing Summary
+
+The application was tested in the local XAMPP environment. Testing included:
+
+Catalog page loading
+Shopping cart page loading
+Add to cart behavior
+Increase quantity behavior
+Decrease quantity behavior
+Remove from cart behavior
+Checkout behavior
+Tax and shipping calculation checks
+Navigation and routing after MVC refactor
+
+Testing confirmed that the application met the core project requirements for the course project.
+
+Notes
+The project was developed for educational purposes as part of the SDC310L course.
+The final version focuses on functionality, database support, MVC organization, and testing.
+The design is intentionally simple to match the scope of the course assignment.
+Link to Project
+
+SDC310L Online Store Repository
+
+Project Summary
+
+The SDC310L Online Store project is a PHP web application that was developed in phases across the course. The final application allows users to view a product catalog, add products to the shopping cart, adjust quantities, remove products, and complete checkout. Product and cart data are supported through a MySQL database, and the final version of the application was reorganized into a simple MVC structure to improve readability and maintenance.
+
+During development, the project moved through several stages. The first stage focused on planning. The second stage created the database structure and the basic application framework. The third stage added PHP database support so the catalog and cart could use live data. The fourth stage reorganized the project into models, views, and controllers. The final stage focused on testing, bug fixes, final review, and submission preparation.
+
+This project helped strengthen skills in PHP development, MySQL database support, CRUD operations, MVC architecture, GitHub version control, debugging, and application testing. It also showed the importance of building software in clear phases and testing each phase before moving to the next.
